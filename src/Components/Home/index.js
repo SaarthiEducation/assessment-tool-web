@@ -18,7 +18,7 @@ const Home = () => {
               <div className="home-main text-center">
               <video className="quizlogo" src={QuizLogo}></video>
               <div className="form-group2">
-                  <Link to="/test1"><button className="buttonHome"
+                  <Link to="/test3"><button className="buttonHome"
                   >Assessments </button></Link>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import TestTwo from "./TestTwo";
 import Scoreboard from "../Scoreboard/index";
 import LayOut from "./LayOut";
 const TestOne = ({ allAnswer, view }) => {
+  console.log(allAnswer)
   const [question, setQuestion] = useState(allAnswer);
   const [viewZero, setViewZreo] = useState(view);
 
@@ -14,44 +15,44 @@ const TestOne = ({ allAnswer, view }) => {
   };
 
   const handleOneAnswerClick = (e, a1, option) => {
-    let newOneQuestion = question;
-    newOneQuestion.map((obj, index) => {
-      if (obj.QuestionNumber === option.QuestionNumber) {
-        if (a1 === obj.correctAnswer) {
-          obj.status = 1;
-        }
-        else {
-          obj.status = 0;
-        }
+    const newOneQuestion = question.map((obj) => {
+      if (
+        obj.LevelNumber === option.LevelNumber &&
+        obj.QuestionNumber === option.QuestionNumber
+      ) {
+        const updatedOptions = obj.options.map((optionValue) =>
+          optionValue === a1 ? 1 : 0
+        );
+        const status = a1 === option.CorrectAnswer ? 1 : 0;
+        return {
+          ...obj,
+          status: status,
+          status1:updatedOptions,
+        };
+        
       }
-    });
-    setQuestion(newOneQuestion);
-    const buttons = document.querySelectorAll('.buttonStyle');
-    buttons.forEach((button) => {
-      button.classList.remove('selected');
+      return obj;
       
     });
-
-    e.currentTarget.classList.add('selected');
-    e.currentTarget.style.outline = '2px solid green';
+    setQuestion(newOneQuestion);
   };
   const handleOneSubmit = () => {
     let isAllSelected = true;
     question.forEach((option) => {
-      if (option.LevelNumber === 142 && option.status === '') {
+      if (option.LevelNumber === "1" && option.status === '') {
         isAllSelected = false;
       }
     });
     if (isAllSelected) {
       let newOneQuestion = question;
       const count = newOneQuestion.reduce((count, question) => {
-        if (question.LevelNumber === 142 && question.status === 1) {
+        if (question.LevelNumber === "1" && question.status === 1) {
           return count + 1;
         }
         return count;
       }, 0);
 
-      if (count > 3) {
+      if (count > 6) {
         setViewZreo(2)
       }
       else {
@@ -66,7 +67,7 @@ const TestOne = ({ allAnswer, view }) => {
 
 
 
-  if (viewZero === 1) {
+   if (viewZero === 1) {
     return (
       <>
        <LayOut />
@@ -76,22 +77,24 @@ const TestOne = ({ allAnswer, view }) => {
               <span className="s1">Topic : Count and write</span>
             </div>
             {question.map((option, index) =>
-              option.LevelNumber === 142 ? (
-                <div className="qus" key={option.correctAnswer}>
+              option.LevelNumber === "1" ? (
+                <div className="qus" key={option.CorrectAnswer}>
                   <span className="Qus-num">Q{option.QuestionNumber}</span>
                   <div className="text-center">
                     <img
                       className="test2-img mt-2"
                       width="300"
                       height="200"
-                      src={process.env.PUBLIC_URL + option.question}
+                      src={process.env.PUBLIC_URL + option.Question}
                      
                     />
                   </div>
                   <div style={containerOneStyle}>
                     {option.options.map((a1, optionIndex) => (
                       <button
-                      className="buttonStyle"
+                      className={`buttonStyle ${
+                        option.status1[optionIndex] === 1 ? "selected" : ""
+                      }`}
                         onClick={(e) => handleOneAnswerClick(e, a1, option)}
                         key={a1}
                       >

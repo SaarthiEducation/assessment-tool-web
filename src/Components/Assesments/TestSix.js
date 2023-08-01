@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import "../../Css/style.css";
-import TestOne from "./TestOne";
+import Questions from '../Questions.json';
+import TestFive from "./TestFive";
+import TestSeven from "./TestSeven";
 import LayOut from "./LayOut";
-import TestThree from "./TestThree";
-const TestTwo = ({ allAnswer, view }) => {
-  console.log(allAnswer)
-  const [question, setQuestion] = useState(allAnswer);
-  const [testtwoView, setTestTwoView] = useState(view);
+const containerThreeStyle = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '0.1rem',
+};
 
-  const containerTwoStyle = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '0.1rem',
-  };
-  const handleTwoAnswerClick = (e, a1, option) => {
-    const newTwoQuestion = question.map((obj) => {
+const TestSix = ({ allAnswer, view })=> {
+  const [Question, setQuestion] = useState(allAnswer);
+  const [TestSixView, setTestSixView] = useState(view);
+
+  const handleSixAnswerClick = (e, a1, option) => {
+    const newSixQuestion = Question.map((obj) => {
       if (
         obj.LevelNumber === option.LevelNumber &&
         obj.QuestionNumber === option.QuestionNumber
@@ -33,55 +34,56 @@ const TestTwo = ({ allAnswer, view }) => {
       return obj;
       
     });
-    setQuestion(newTwoQuestion);
+    setQuestion(newSixQuestion);
   };
-  const handleTwoSubmit = () => {
+
+  const handleThreeSubmit = () => {
     let isAllSelected = true;
-    question.forEach((option) => {
-      if (option.LevelNumber === "2" && option.status === '') {
+    Question.forEach((option) => {
+      if (option.LevelNumber === "6" && option.status === '') {
         isAllSelected = false;
       }
     });
     if (isAllSelected) {
-      let newTwoQuestion = question;
-      const count = newTwoQuestion.reduce((count, question) => {
-        if (question.LevelNumber === "2" && question.status === 1) {
+      let newSixQuestion = Question;
+      const count = newSixQuestion.reduce((count, Question) => {
+        if (Question.LevelNumber === "6" && Question.status === 1) {
           return count + 1;
         }
         return count;
       }, 0);
 
       if (count > 6) {
-        setTestTwoView(3)
+        setTestSixView(7)
       }
       else {
-        setTestTwoView(1)
+         setTestSixView(5);
       }
-
-      setQuestion(newTwoQuestion);
+      setQuestion(newSixQuestion);
     } else {
-      alert("Please select an option for all questions.");
+      alert("Please select an option for all Questions.");
     }
   };
-   if (testtwoView === 2) {
+
+   if (TestSixView === 6) {
     return (
       <>
        <LayOut />
           <div className="main pb-0 ">
             <div className="span">
-              <span className="s1">Topic : What comes after</span>
+              <span className="s1">Topic : What come before</span>
             </div>
-            {question.map((option, index) =>
-              option.LevelNumber === "2" ? (
-                <div className="qus" key={option.CorrectAnswer}>
+            {Question.map((option, index) =>
+              option.LevelNumber === "6" ? (
+                <div className="qus" key={option.correctAnswer}>
                   <span className="Qus-num">Q{option.QuestionNumber} . {option.Question}</span>
-                  <div style={containerTwoStyle}>
+                  <div style={containerThreeStyle}>
                     {option.options.map((a1, optionIndex) => (
                       <button
                       className={`buttonStyle ${
                         option.status1[optionIndex] === 1 ? "selected" : ""
                       }`}
-                        onClick={(e) => handleTwoAnswerClick(e, a1, option)}
+                        onClick={(e) => handleSixAnswerClick(e, a1, option)}
                         key={a1}
                       >
                         {a1}
@@ -92,20 +94,22 @@ const TestTwo = ({ allAnswer, view }) => {
               ) : null
             )}
             <div className="sub-btn">
-              <button className="Assessment-btn mb-5" onClick={handleTwoSubmit}>
+              <button className="Assessment-btn mb-5" onClick={handleThreeSubmit}>
                 Submit
               </button>
             </div>
           </div>
       </>
     );
-  } else if (testtwoView === 3) {
-    return <TestThree allAnswer={question} view={3} />;
-  } else if (testtwoView === 1) {
-    return <TestOne allAnswer={question} view={1} />;
-  } else {
+  } else if (TestSixView === 7) {
+    return <TestSeven allAnswer={Question} view={7} />;
+  } 
+  else if (TestSixView === 5) {
+    return <TestFive allAnswer={Question} view={5} />;
+  } 
+  else {
     return null;
   }
 };
 
-export default TestTwo;
+export default TestSix;

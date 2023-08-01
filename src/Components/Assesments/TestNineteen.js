@@ -2,21 +2,23 @@ import { Input } from "@mui/material";
 import React, { useState } from 'react';
 import "../../Css/style.css";
 import Scoreboard from "../Scoreboard/index";
-import TestThree from "./TestThree";
+import TestTwenty from "./TestTwenty";
 import LayOut from "./LayOut";
-import TestFive from "./TestFive";
+import Questions from '../Questions.json';
+import TestEighteen from "./TestEighteen";
+
 const containerFourStyle = {
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   gap: '0.1rem',
 };
-const TestFour = ({ allAnswer, view }) => {
-  const [question, setQuestion] = useState(allAnswer);
-  const [testFourView, setTestFourView] = useState(view);
+const TestNineteen = ({ allAnswer, view }) => {
+  const [Question, setQuestion] = useState(allAnswer);
+  const [TestNineteenView, setTestNineteenView] = useState(view);
 
-  const handleFourAnswerChange = (e, option) => {
-    let newFourQuestion = [...question];
-    newFourQuestion.forEach((obj) => {
+  const handleTewlveAnswerChange = (e, option) => {
+    let newNineteenQuestion = [...Questions];
+    newNineteenQuestion.forEach((obj) => {
       if (obj.LevelNumber === option.LevelNumber && obj.QuestionNumber === option.QuestionNumber) {
         if (e.target.value === obj.CorrectAnswer) {
           obj.status = 1;
@@ -26,11 +28,10 @@ const TestFour = ({ allAnswer, view }) => {
         }
       }
     });
-    setQuestion(newFourQuestion);
+    setQuestion(newNineteenQuestion);
     const buttons = document.querySelectorAll('.buttonStyle');
     buttons.forEach((button) => {
-      button.classList.remove('selected');
-      button.style.outline = 'none';
+      button.classList.remove('selected');      
     });
     e.currentTarget.classList.add('selected');
     e.currentTarget.style.outline = '2px solid green';
@@ -38,48 +39,49 @@ const TestFour = ({ allAnswer, view }) => {
 
   const handleFourSubmit = () => {
     let isAllSelected = true;
-    question.forEach((option) => {
-      if (option.LevelNumber === "4" && option.status === '') {
+    Question.forEach((option) => {
+      if (option.LevelNumber === "19" && option.status === '') {
         isAllSelected = false;
       }
     });
     if (isAllSelected) {
-      let newFourQuestion = question;
-      const count = newFourQuestion.reduce((count, question) => {
-        if (question.LevelNumber === "4" && question.status === 1) {
+      let newNineteenQuestion = Question;
+      const count = newNineteenQuestion.reduce((count, Question) => {
+        if (Question.LevelNumber === "19" && Question.status === 1) {
           return count + 1;
         }
         return count;
       }, 0);
 
       if (count > 6) {
-        setTestFourView(5)
+        setTestNineteenView(20)
       }
       else {
-        setTestFourView(3)
+         setTestNineteenView(18)
       }
-      setQuestion(newFourQuestion);
+      setQuestion(newNineteenQuestion);
     } else {
-      alert("Please select an option for all questions.");
+      alert("Please select an option for all Questions.");
     }
   };
 
-   if (testFourView === 4) {
+   if (TestNineteenView === 19) {
     return (
       <>
           <LayOut />
           <div className="main pb-0 ">
             <div className="span">
-              <span className="s1">Topic : Identify smaller number</span>
+              <span className="s1">Topic : Triple x Triple Multiply (Vertical)</span>
             </div>
-            {question.map((option, index) =>
-              option.LevelNumber === "4" ? (
+            {Questions.map((option, index) =>
+
+              option.LevelNumber === "19" ? (
                 <div className="qus" >
                   <span className="Qus-num">Q{option.QuestionNumber} . {option.Question}</span>
                   <div style={containerFourStyle}>
                     <Input
                       variant="outlined"
-                      onChange={(e) => handleFourAnswerChange(e, option)}
+                      onChange={(e) => handleTewlveAnswerChange(e, option)}
                       style={{ margin: "0.5rem" }}
                     />
                   </div>
@@ -94,15 +96,15 @@ const TestFour = ({ allAnswer, view }) => {
           </div>
       </>
     );
-  } else if (testFourView === 5) {
-    return <TestFive allAnswer={question} view={5} />;
   } 
-  else if (testFourView === 3) {
-    return <TestThree allAnswer={question} view={3} />;
+  else if (TestNineteenView === 20) {
+    return <TestTwenty allAnswer={Question} view={20} />;
   } 
-  else {
+  else if (TestNineteenView === 18) {
+    return <TestEighteen allAnswer={Question} view={18} />;
+  } else {
     return null;
-   }
+  }
 };
 
-export default TestFour;
+export default TestNineteen;

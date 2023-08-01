@@ -2,21 +2,23 @@ import { Input } from "@mui/material";
 import React, { useState } from 'react';
 import "../../Css/style.css";
 import Scoreboard from "../Scoreboard/index";
-import TestThree from "./TestThree";
+import TestTwelve from "./TestTwelve";
 import LayOut from "./LayOut";
-import TestFive from "./TestFive";
+import Questions from '../Questions.json';
+import TestTen from "./TestTen";
+
 const containerFourStyle = {
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   gap: '0.1rem',
 };
-const TestFour = ({ allAnswer, view }) => {
-  const [question, setQuestion] = useState(allAnswer);
-  const [testFourView, setTestFourView] = useState(view);
+const TestEleven = ({ allAnswer, view }) => {
+  const [Question, setQuestion] = useState(allAnswer);
+  const [testElevenView, setTestElevenViewView] = useState(view);
 
-  const handleFourAnswerChange = (e, option) => {
-    let newFourQuestion = [...question];
-    newFourQuestion.forEach((obj) => {
+  const handleElevenAnswerChange = (e, option) => {
+    let newElevenQuestion = [...Questions];
+    newElevenQuestion.forEach((obj) => {
       if (obj.LevelNumber === option.LevelNumber && obj.QuestionNumber === option.QuestionNumber) {
         if (e.target.value === obj.CorrectAnswer) {
           obj.status = 1;
@@ -26,11 +28,10 @@ const TestFour = ({ allAnswer, view }) => {
         }
       }
     });
-    setQuestion(newFourQuestion);
+    setQuestion(newElevenQuestion);
     const buttons = document.querySelectorAll('.buttonStyle');
     buttons.forEach((button) => {
-      button.classList.remove('selected');
-      button.style.outline = 'none';
+      button.classList.remove('selected');      
     });
     e.currentTarget.classList.add('selected');
     e.currentTarget.style.outline = '2px solid green';
@@ -38,48 +39,49 @@ const TestFour = ({ allAnswer, view }) => {
 
   const handleFourSubmit = () => {
     let isAllSelected = true;
-    question.forEach((option) => {
-      if (option.LevelNumber === "4" && option.status === '') {
+    Question.forEach((option) => {
+      if (option.LevelNumber === "11" && option.status === '') {
         isAllSelected = false;
       }
     });
     if (isAllSelected) {
-      let newFourQuestion = question;
-      const count = newFourQuestion.reduce((count, question) => {
-        if (question.LevelNumber === "4" && question.status === 1) {
+      let newElevenQuestion = Question;
+      const count = newElevenQuestion.reduce((count, Question) => {
+        if (Question.LevelNumber === "11" && Question.status === 1) {
           return count + 1;
         }
         return count;
       }, 0);
 
       if (count > 6) {
-        setTestFourView(5)
+        setTestElevenViewView(12)
       }
       else {
-        setTestFourView(3)
+         setTestElevenViewView(10)
       }
-      setQuestion(newFourQuestion);
+      setQuestion(newElevenQuestion);
     } else {
-      alert("Please select an option for all questions.");
+      alert("Please select an option for all Questions.");
     }
   };
 
-   if (testFourView === 4) {
+   if (testElevenView === 11) {
     return (
       <>
           <LayOut />
           <div className="main pb-0 ">
             <div className="span">
-              <span className="s1">Topic : Identify smaller number</span>
+              <span className="s1">Topic : Double x Single Multiply (Vertical)</span>
             </div>
-            {question.map((option, index) =>
-              option.LevelNumber === "4" ? (
+            {Questions.map((option, index) =>
+
+              option.LevelNumber === "11" ? (
                 <div className="qus" >
                   <span className="Qus-num">Q{option.QuestionNumber} . {option.Question}</span>
                   <div style={containerFourStyle}>
                     <Input
                       variant="outlined"
-                      onChange={(e) => handleFourAnswerChange(e, option)}
+                      onChange={(e) => handleElevenAnswerChange(e, option)}
                       style={{ margin: "0.5rem" }}
                     />
                   </div>
@@ -94,15 +96,15 @@ const TestFour = ({ allAnswer, view }) => {
           </div>
       </>
     );
-  } else if (testFourView === 5) {
-    return <TestFive allAnswer={question} view={5} />;
   } 
-  else if (testFourView === 3) {
-    return <TestThree allAnswer={question} view={3} />;
+  else if (testElevenView === 12) {
+    return <TestTwelve allAnswer={Question} view={12} />;
   } 
-  else {
+  else if (testElevenView === 10) {
+    return <TestTen allAnswer={Question} view={10} />;
+  } else {
     return null;
-   }
+  }
 };
 
-export default TestFour;
+export default TestEleven;

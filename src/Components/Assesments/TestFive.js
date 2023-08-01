@@ -2,19 +2,20 @@ import { Input } from "@mui/material";
 import React, { useState } from 'react';
 import "../../Css/style.css";
 import Scoreboard from "../Scoreboard/index";
-import TestThree from "./TestThree";
+import TestSix from "./TestSix";
 import LayOut from "./LayOut";
-import TestFive from "./TestFive";
+import TestFour from "./TestFour";
+
 const containerFourStyle = {
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   gap: '0.1rem',
 };
-const TestFour = ({ allAnswer, view }) => {
+const TestFive = ({ allAnswer, view }) => {
   const [question, setQuestion] = useState(allAnswer);
-  const [testFourView, setTestFourView] = useState(view);
+  const [TestFiveView, setTestFiveView] = useState(view);
 
-  const handleFourAnswerChange = (e, option) => {
+  const handleFiveAnswerChange = (e, option) => {
     let newFourQuestion = [...question];
     newFourQuestion.forEach((obj) => {
       if (obj.LevelNumber === option.LevelNumber && obj.QuestionNumber === option.QuestionNumber) {
@@ -36,27 +37,28 @@ const TestFour = ({ allAnswer, view }) => {
     e.currentTarget.style.outline = '2px solid green';
   };
 
-  const handleFourSubmit = () => {
+  const handleFiveSubmit = () => {
     let isAllSelected = true;
     question.forEach((option) => {
-      if (option.LevelNumber === "4" && option.status === '') {
+      if (option.LevelNumber === "5" && option.status === '') {
         isAllSelected = false;
       }
     });
     if (isAllSelected) {
       let newFourQuestion = question;
       const count = newFourQuestion.reduce((count, question) => {
-        if (question.LevelNumber === "4" && question.status === 1) {
+        if (question.LevelNumber === "5" && question.status === 1) {
           return count + 1;
         }
         return count;
       }, 0);
 
       if (count > 6) {
-        setTestFourView(5)
+        // alert("Congraulations All Level Passed")
+        setTestFiveView(6)
       }
       else {
-        setTestFourView(3)
+        setTestFiveView(4)
       }
       setQuestion(newFourQuestion);
     } else {
@@ -64,22 +66,22 @@ const TestFour = ({ allAnswer, view }) => {
     }
   };
 
-   if (testFourView === 4) {
+   if (TestFiveView === 5) {
     return (
       <>
           <LayOut />
           <div className="main pb-0 ">
             <div className="span">
-              <span className="s1">Topic : Identify smaller number</span>
+              <span className="s1">Topic : Identify bigger number</span>
             </div>
             {question.map((option, index) =>
-              option.LevelNumber === "4" ? (
-                <div className="qus" >
+              option.LevelNumber === "5" ? (
+                <div className="qus">
                   <span className="Qus-num">Q{option.QuestionNumber} . {option.Question}</span>
                   <div style={containerFourStyle}>
                     <Input
                       variant="outlined"
-                      onChange={(e) => handleFourAnswerChange(e, option)}
+                      onChange={(e) => handleFiveAnswerChange(e, option)}
                       style={{ margin: "0.5rem" }}
                     />
                   </div>
@@ -87,22 +89,22 @@ const TestFour = ({ allAnswer, view }) => {
               ) : null
             )}
             <div className="sub-btn">
-              <button className="Assessment-btn mb-5" onClick={handleFourSubmit}>
+              <button className="Assessment-btn mb-5" onClick={handleFiveSubmit}>
                 Submit
               </button>
             </div>
           </div>
       </>
     );
-  } else if (testFourView === 5) {
-    return <TestFive allAnswer={question} view={5} />;
+  } else if (TestFiveView === 6) {
+    return <TestSix allAnswer={question} view={6} />;
   } 
-  else if (testFourView === 3) {
-    return <TestThree allAnswer={question} view={3} />;
+  else if (TestFiveView === 4) {
+    return <TestFour allAnswer={question} view={4} />;
   } 
   else {
     return null;
    }
 };
 
-export default TestFour;
+export default TestFive;
