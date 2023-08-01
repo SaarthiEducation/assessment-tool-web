@@ -37,7 +37,6 @@ import './Css/style.css';
           <Route path="Scoreboard" exact element={<Scoreboard />} />
           <Route path="*" element={<NoPage />} />
         </Route>
-       
       </Routes>
     </div>
   );
